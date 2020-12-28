@@ -13,22 +13,24 @@ class Population {
 
 	private:
 		Knapsack knapsack;
-		vector<vector<int>> geneticCodes;		// The history of each generation
-		int size;
-		int bestCode;
+		vector<vector<unsigned int>> geneticCodes;		// The history of each generation
+		unsigned int size;
+		unsigned int bestCode;
+		unsigned int tournamentSize;
+		double mutationRate;
 
 	public:
-		
+
 		/*
 		Construct the population randomly with a given population size
 		*/
-		Population(int popSize, Knapsack knapsack);
+		Population(unsigned int popSize, Knapsack knapsack);
 
 		/*
 		Create a new generation using tournament selection and returns the efficacy of the best code
 		Interally it updates its vector of genetic codes, and it's internal track of the best code
 		*/
-		int newGeneration();
+		unsigned int newGeneration();
 
 };
 
