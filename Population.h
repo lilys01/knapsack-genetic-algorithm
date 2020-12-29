@@ -24,13 +24,17 @@ class Population {
 		/*
 		Construct the population randomly with a given population size
 		*/
-		Population(unsigned int popSize, Knapsack knapsack);
+		Population(Knapsack knapsack, unsigned int popSize, unsigned int tournamentSize, double mutationRate);
 
 		/*
 		Create a new generation using tournament selection and returns the efficacy of the best code
 		Interally it updates its vector of genetic codes, and it's internal track of the best code
 		*/
 		unsigned int newGeneration();
+
+		const unsigned int getBestCode() const {
+			return this->bestCode;
+		};
 
 };
 
