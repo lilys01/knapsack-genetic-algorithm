@@ -1,5 +1,3 @@
-#include "GeneticCode.h"
-#include "Knapsack.h"
 #include <fstream>
 #include <string>
 #include <random>
@@ -7,6 +5,8 @@
 
 using namespace std;
 
+#include "GeneticCode.h"
+#include "Knapsack.h"
 
 
 Knapsack::Knapsack(string fileName, unsigned int sizeCapacity, unsigned int weightCapacity):
@@ -15,7 +15,7 @@ Knapsack::Knapsack(string fileName, unsigned int sizeCapacity, unsigned int weig
 	ofstream file(fileName, ofstream::out);
 
   	// Fandom number generator
-	default_random_engine generator;
+	default_random_engine generator; // random_device{}()
 	uniform_int_distribution<unsigned char> randValue (1, numeric_limits<unsigned char>::max());
 	uniform_int_distribution<unsigned char> randWeight (0, this->weightCapacity / 10);
 	uniform_int_distribution<unsigned char> randSize (0, this->sizeCapacity / 10);

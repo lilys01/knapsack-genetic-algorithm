@@ -1,9 +1,10 @@
-#include "Population.h"
-#include "Knapsack.h"
-#include <iostream>
+#include <stdio.h>
 #include <cstdlib>
 
 using namespace std;
+
+#include "Population.h"
+#include "Knapsack.h"
 
 int main(int argc, char* argv[]) {
 	if(argc != 2) {
@@ -11,12 +12,13 @@ int main(int argc, char* argv[]) {
 	}
 
 	Knapsack knapsack(argv[1], 100, 100);
-	Population population(knapsack, 100, 4, 0.05);
+	Population population(knapsack, 1000, 8, 0.1);
 
-	for(int i = 0; i < 100; i++) {
-		population.newGeneration();
+	unsigned int generationCount = 10000;
+	for(int i = 0; i < generationCount; i++) {
+		population.newGeneration((unsigned int) ((31.0/generationCount) * i) + 1);
 	}
 
-	cout << (unsigned int) population.getBestCode() << ", " << (unsigned int) knapsack.evaluateCode(population.getBestCode()) << endl;
+	printf("%x, %u\n", population.getBestCode(), knapsack.evaluateCode(population.getBestCode()) );
 	return 0;
 }

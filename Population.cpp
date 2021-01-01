@@ -1,6 +1,3 @@
-#include "GeneticCode.h"
-#include "Population.h"
-#include "Knapsack.h"
 #include <queue>
 #include <tuple>
 #include <random>
@@ -8,16 +5,19 @@
 
 using namespace std;
 
+#include "GeneticCode.h"
+#include "Population.h"
+#include "Knapsack.h"
 
 
-unsigned int Population::newGeneration(){
+unsigned int Population::newGeneration(unsigned int bitsPerCrossover){
 	vector<unsigned int> parentGen = this->geneticCodes.back();
 	vector<unsigned int> n(this->size);
 	unsigned int parentA;
 	unsigned int parentB;
 
   	// Fandom number generator
-	default_random_engine generator;
+	default_random_engine generator(random_device{}());
 	uniform_int_distribution<unsigned int> randTournament(0, parentGen.size()-1);
 	uniform_int_distribution<unsigned char> randParent(0, 1);
 	uniform_real_distribution<double> randMutation(0.0, 1.0);
@@ -49,14 +49,23 @@ unsigned int Population::newGeneration(){
 		for(unsigned int i = 0; i < 2; i++){
 
 			unsigned int child = 0;
+
+
+			unsigned int parent;
+			if(randParent(generator) == 0) {
+				parent = parentA;
+			} else {
+				parent = parentB;
+			}
 			for(unsigned int j = 0; j < 32; j++){
 
         		// Crossover
-				unsigned int parent;
-				if(randParent(generator) == 0) {
-					parent = parentA;
-				} else {
-					parent = parentB;
+        		if(j%bitsPerCrossover == 0) {
+					if(randParent(generator) == 0) {
+						parent = parentA;
+					} else {
+						parent = parentB;
+					}
 				}
 
 				unsigned int trait = GeneticCode::readBit(parent, j);
@@ -97,7 +106,7 @@ Population::Population(Knapsack knapsack, unsigned int popSize, unsigned int tou
 					knapsack(knapsack), size(popSize), tournamentSize(tournamentSize), mutationRate(mutationRate), bestCode(0) {
 
 	// Random number generator
-	default_random_engine generator;
+	default_random_engine generator(random_device{}());
 	uniform_int_distribution<unsigned int> randCode(0, numeric_limits<unsigned int>::max());
 
 	// Keeping track of the best code for the initial generation
